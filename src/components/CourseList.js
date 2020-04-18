@@ -32,7 +32,11 @@ const CourseList = (props) => {
             <td>
               <Link to={'/course/' + course.slug}>{course.title}</Link>
             </td>
-            <td>{course.authorId}</td>
+            <td>
+              {props.authors.map((author) =>
+                author.id === course.authorId ? author.name : null
+              )}
+            </td>
             <td>{course.category}</td>
           </tr>
         ))}

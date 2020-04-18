@@ -18,7 +18,10 @@ const SelectInput = (props) => {
           value={props.value}
           className="form-control"
         >
-          {props.children}
+          <option value="" />
+          {props.authors.map((author) => (
+            <option value={author.id}>{author.name}</option>
+          ))}
         </select>
       </div>
       {props.error && <div className="alert alert-danger">{props.error}</div>}

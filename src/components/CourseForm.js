@@ -19,14 +19,11 @@ function CourseForm(props) {
         id="author"
         name="authorId"
         label="Author"
+        authors={props.authors}
         onChange={props.onChange}
         value={String(props.course.authorId) || ''}
         error={props.errors.authorId}
-      >
-        <option value="" />
-        <option value="1">Cory House</option>
-        <option value="2">Scott Allen</option>
-      </SelectInput>
+      />
 
       <TextInput
         id="category"
