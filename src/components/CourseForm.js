@@ -40,7 +40,7 @@ function CourseForm(props) {
 }
 
 CourseForm.propTypes = {
-  authors: PropTypes.object.isRequired,
+  authors: PropTypes.array.isRequired,
   course: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

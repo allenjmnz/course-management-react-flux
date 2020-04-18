@@ -20,7 +20,9 @@ const SelectInput = (props) => {
         >
           <option value="" />
           {props.authors.map((author) => (
-            <option value={author.id}>{author.name}</option>
+            <option key={author.id} value={author.id}>
+              {author.name}
+            </option>
           ))}
         </select>
       </div>
@@ -35,7 +37,7 @@ SelectInput.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  children: PropTypes.array.isRequired,
+  authors: PropTypes.array.isRequired,
   error: PropTypes.string
 };
 

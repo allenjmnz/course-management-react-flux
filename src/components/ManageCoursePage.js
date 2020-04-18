@@ -20,6 +20,7 @@ const ManageCoursePage = (props) => {
   });
 
   const slug = props.match.params.slug;
+  const slugIsEmpty = slug === undefined ? true : false;
   const slugDoesExist = courses.some((cr) => cr.slug === slug);
 
   useEffect(() => {
@@ -71,7 +72,7 @@ const ManageCoursePage = (props) => {
     return Object.keys(_errors).length === 0;
   };
 
-  return slugDoesExist ? (
+  return slugDoesExist || slugIsEmpty ? (
     <>
       <h2>Manage Course</h2>
       <CourseForm

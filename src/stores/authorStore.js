@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import Dispatcher from '../appDispatcher';
-import actiontypes from '../actions/actionTypes';
+import actionTypes from '../actions/actionTypes';
 
 const CHANGE_EVENT = 'change';
 let _authors = [];
@@ -27,8 +27,12 @@ const store = new AuthorStore();
 
 Dispatcher.register((action) => {
   switch (action.actionType) {
-    case actiontypes.LOAD_AUTHORS:
+    case actionTypes.LOAD_AUTHORS:
       _authors = action.authors;
+      store.emitChange();
+      break;
+    case actionTypes.CREATE_AUTHOR:
+      _authors = _authors.concat(action.author);
       store.emitChange();
       break;
     default:

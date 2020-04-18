@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import authorStore from '../stores/authorStore';
 import courseStore from '../stores/courseStore';
 import * as appActions from '../actions/appActions';
-import { Link } from 'react-router-dom';
+import AuthorsList from './AuthorsList';
 
 const AuthorsPage = () => {
   const [authors, setAuthors] = useState(authorStore.getAuthors());
   const [courses, setCourses] = useState(courseStore.getCourses());
+  const [author, setAuthor] = useState({ name: '' });
 
   useEffect(() => {
     authorStore.addChangeListener(onChange);
     if (authors.length === 0) appActions.loadAuthors();
     return () => authorStore.removeChangeListener(onChange);
-  }, [authors.length]);
+  }, [author, authors.length]);
 
   useEffect(() => {
     courseStore.addChangeListener(onChange);
@@ -25,45 +26,32 @@ const AuthorsPage = () => {
     setCourses(courseStore.getCourses());
   }
 
+  function handleChange(e) {
+    setAuthor({ name: e.target.value });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (author.name !== '') {
+      appActions.saveAuthor(author).then(() => {
+        setAuthor({ name: '' });
+      });
+    }
+  }
+
   return (
     <>
+      <form onSubmit={handleSubmit}>
+        <button className="btn btn-primary float-right mt-1">Add Author</button>
+        <input
+          type="text"
+          onChange={handleChange}
+          className="form-control float-right mt-1 mr-2 w-25"
+          value={author.name}
+        />
+      </form>
       <h2 className="mb-3">Authors</h2>
-      <div>
-        {authors.map((author) => (
-          <>
-            <h4 className="mb-3">{author.name}</h4>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th className="w-75">Courses</th>
-                  <th>Category</th>
-                </tr>
-              </thead>
-              <tbody>
-                {courses.map((course) =>
-                  course.authorId === author.id ? (
-                    <tr>
-                      <td>
-                        <Link
-                          to={{
-                            pathname: '/course/' + course.slug,
-                            state: {
-                              previous: '/authors'
-                            }
-                          }}
-                        >
-                          {course.title}
-                        </Link>
-                      </td>
-                      <td>{course.category}</td>
-                    </tr>
-                  ) : null
-                )}
-              </tbody>
-            </table>
-          </>
-        ))}
-      </div>
+      <AuthorsList authors={authors} courses={courses} />
     </>
   );
 };
