@@ -3,11 +3,7 @@ import courseStore from '../stores/courseStore';
 import authorStore from '../stores/authorStore';
 import CourseList from './CourseList';
 import { Link } from 'react-router-dom';
-import {
-  loadCourses,
-  deleteCourse,
-  loadAuthors
-} from '../actions/courseActions';
+import { loadCourses, deleteCourse, loadAuthors } from '../actions/appActions';
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState(courseStore.getCourses());

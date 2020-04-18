@@ -3,7 +3,7 @@ import CourseForm from './CourseForm';
 import NotFoundPage from './NotFoundPage';
 import courseStore from '../stores/courseStore';
 import authorStore from '../stores/authorStore';
-import * as courseActions from '../actions/courseActions';
+import * as appActions from '../actions/appActions';
 import { toast } from 'react-toastify';
 import { Route } from 'react-router-dom';
 
@@ -25,7 +25,7 @@ const ManageCoursePage = (props) => {
   useEffect(() => {
     courseStore.addChangeListener(onChange);
     if (courses.length === 0) {
-      courseActions.loadCourses();
+      appActions.loadCourses();
     } else if (slug && slugDoesExist) {
       setCourse(courseStore.getCourseBySlug(slug));
     }
@@ -34,7 +34,7 @@ const ManageCoursePage = (props) => {
 
   useEffect(() => {
     authorStore.addChangeListener(onChange);
-    if (authors.length === 0) courseActions.loadAuthors();
+    if (authors.length === 0) appActions.loadAuthors();
     return () => authorStore.removeChangeListener(onChange);
   }, [authors.length]);
 
@@ -47,6 +47,19 @@ const ManageCoursePage = (props) => {
     setCourse({ ...course, [target.name]: target.value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formIsValid()) return;
+    appActions.saveCourse(course).then(() => {
+      if (props.location.state) {
+        props.history.push(props.location.state.previous);
+      } else {
+        props.history.push('/courses');
+      }
+      toast.success('Course saved.');
+    });
+  };
+
   const formIsValid = () => {
     const _errors = {};
     if (!course.title) _errors.title = 'Title is required';
@@ -56,15 +69,6 @@ const ManageCoursePage = (props) => {
     setErrors(_errors);
     // Form is valid if the errors object has no properties
     return Object.keys(_errors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!formIsValid()) return;
-    courseActions.saveCourse(course).then(() => {
-      props.history.push('/courses');
-      toast.success('Course saved.');
-    });
   };
 
   return slugDoesExist ? (

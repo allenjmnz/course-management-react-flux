@@ -36,7 +36,6 @@ export function saveAuthor() {}
 
 export function loadAuthors() {
   return authorApi.getAuthors().then((authors) => {
-    console.log(authors);
     dispatcher.dispatch({
       actionType: actionTypes.LOAD_AUTHORS,
       authors: authors

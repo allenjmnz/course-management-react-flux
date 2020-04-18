@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 function Header() {
   const activeStyle = {
-    color: 'orange',
+    color: 'orange'
   };
 
   return (
@@ -14,6 +14,10 @@ function Header() {
       {' | '}
       <NavLink activeStyle={activeStyle} to="/courses">
         Courses
+      </NavLink>
+      {' | '}
+      <NavLink activeStyle={activeStyle} to="/authors">
+        Authors
       </NavLink>
       {' | '}
       <NavLink activeStyle={activeStyle} to="/about">
