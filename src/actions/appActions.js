@@ -33,12 +33,12 @@ export function deleteCourse(courseId) {
 }
 
 export function saveAuthor(author) {
-  return authorApi.saveAuthor(author).then((author) => {
+  return authorApi.saveAuthor(author).then((savedAuthor) => {
     dispatcher.dispatch({
       actionType: author.id
         ? actionTypes.UPDATE_AUTHOR
         : actionTypes.CREATE_AUTHOR,
-      author: author
+      author: savedAuthor
     });
   });
 }
