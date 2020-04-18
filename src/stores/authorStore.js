@@ -35,6 +35,18 @@ Dispatcher.register((action) => {
       _authors = _authors.concat(action.author);
       store.emitChange();
       break;
+    case actionTypes.UPDATE_AUTHOR:
+      _authors = _authors.map((author) =>
+        author.id === action.author.id ? action.author : author
+      );
+      store.emitChange();
+      break;
+    case actionTypes.DELETE_AUTHOR:
+      _authors = _authors.filter(
+        (author) => author.id !== parseInt(action.authorId, 10)
+      );
+      store.emitChange();
+      break;
     default:
     // Do nothing
   }

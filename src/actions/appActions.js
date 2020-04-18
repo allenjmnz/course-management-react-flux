@@ -35,7 +35,9 @@ export function deleteCourse(courseId) {
 export function saveAuthor(author) {
   return authorApi.saveAuthor(author).then((author) => {
     dispatcher.dispatch({
-      actionType: actionTypes.CREATE_AUTHOR,
+      actionType: author.id
+        ? actionTypes.UPDATE_AUTHOR
+        : actionTypes.CREATE_AUTHOR,
       author: author
     });
   });
@@ -46,6 +48,15 @@ export function loadAuthors() {
     dispatcher.dispatch({
       actionType: actionTypes.LOAD_AUTHORS,
       authors: authors
+    });
+  });
+}
+
+export function deleteAuthor(id) {
+  return authorApi.deleteAuthor(id).then(() => {
+    dispatcher.dispatch({
+      actionType: actionTypes.DELETE_AUTHOR,
+      authorId: id
     });
   });
 }

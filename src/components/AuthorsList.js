@@ -5,7 +5,13 @@ import PropTypes from 'prop-types';
 const AuthorsList = (props) => {
   return props.authors.map((author) => (
     <div key={author.id}>
-      <h4 className="mb-3">{author.name}</h4>
+      <button
+        className="btn btn-outline-danger btn-sm float-right"
+        onClick={() => props.onClick(author.id)}
+      >
+        Delete
+      </button>
+      <h4 className="ml-2 mb-3 mt-5">{author.name}</h4>
       <table className="table">
         <thead>
           <tr>
@@ -41,7 +47,8 @@ const AuthorsList = (props) => {
 
 AuthorsList.propType = {
   authors: PropTypes.object.isRequired,
-  courses: PropTypes.object.isRequired
+  courses: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default AuthorsList;
